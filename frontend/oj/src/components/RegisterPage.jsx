@@ -13,7 +13,7 @@ function RegisterPage({ onAuthSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError(''); 
     try {
       const { data } = await axios.post('http://localhost:5000/api/users/register', {
         userId,
@@ -22,7 +22,7 @@ function RegisterPage({ onAuthSuccess }) {
         dob,
         fullName,
       });
-      onAuthSuccess(data.token);
+      onAuthSuccess(data); // Pass the whole user data object
       navigate('/profile');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
@@ -53,7 +53,7 @@ function RegisterPage({ onAuthSuccess }) {
           <label>Date of Birth:</label>
           <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} required />
         </div>
-        {error && <p className="error-message">{error}</p>} {/* Apply error message class */}
+        {error && <p className="error-message">{error}</p>}
         <button type="submit">Register</button>
       </form>
     </div>

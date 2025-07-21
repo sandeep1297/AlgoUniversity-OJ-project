@@ -1,202 +1,508 @@
+/* Import a modern font from Google Fonts (e.g., Poppins) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Basic Resets & Global Styles */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0; /* Ensure no default margin on body */
-  padding: 0;
-  background-color: #f4f7f6;
+  margin: 0;
+  font-family: 'Poppins', sans-serif; /* Use Poppins or a system sans-serif font */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5; /* Light grey background for the whole app */
   color: #333;
   line-height: 1.6;
-  min-height: 100vh; /* Ensure body takes full viewport height */
-  display: flex; /* Use flexbox for body */
-  justify-content: center; /* Horizontally center content inside body */
-  align-items: flex-start; /* Align items to the start (top) vertically */
-  /* If you want it truly centered in the middle of the screen, use align-items: center; */
 }
 
-#root {
-  display: flex;
-  justify-content: center; /* Redundant if body handles it, but harmless */
-  /* Remove padding from #root if app-container already has it, or adjust as needed */
-  padding: 20px; /* Keep this if you want space around the container inside root */
-  width: 100%; /* Ensure #root takes full width for centering app-container */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+a {
+  color: #007bff; /* Primary blue for links */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #0056b3; /* Darker blue on hover */
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #2c3e50; /* Darker heading color */
+  margin-top: 0;
+  margin-bottom: 0.8em;
+  font-weight: 600; /* Slightly bolder headings */
+}
+
+/* App Container - This centers the entire application content horizontally */
 .app-container {
-  width: 100%;
-  max-width: 960px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 30px;
-  box-sizing: border-box;
-  margin: 0 auto; /* This is crucial for horizontal centering */
+  max-width: 1200px; /* Max width for main content */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px;
 }
 
 /* Navigation Bar */
-nav ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 25px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 15px;
-}
-
-nav li a, nav button {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: 500;
-  font-size: 1.1em;
-  padding: 5px 0;
-  transition: color 0.3s ease;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-nav li a:hover, nav button:hover {
-  color: #0056b3;
-}
-
-/* Headings */
-h1, h2 {
-  color: #007bff;
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-/* Forms */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 25px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-form div {
-  display: flex;
-  flex-direction: column;
-}
-
-form label {
-  margin-bottom: 5px;
-  font-weight: 600;
-  color: #555;
-}
-
-form input[type="text"],
-form input[type="email"],
-form input[type="password"],
-form input[type="date"] {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1em;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-form input:focus {
-  border-color: #007bff;
-}
-
-form button {
-  background-color: #28a745; /* Green for submit */
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1.1em;
-  transition: background-color 0.3s ease;
-}
-
-form button:hover {
-  background-color: #218838;
-}
-
-/* Error and Success Messages */
-p.error-message {
-  color: #dc3545; /* Red for errors */
-  margin-top: -10px; /* Adjust spacing */
-  font-size: 0.9em;
-  text-align: center;
-}
-
-p.success-message {
-  color: #28a745; /* Green for success */
-  margin-top: -10px;
-  font-size: 0.9em;
-  text-align: center;
-}
-
-
-/* Profile Page Specifics */
-.profile-details p {
-  background-color: #e9ecef;
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+nav {
+  background-color: #2c3e50; /* Dark blue/grey background for nav */
+  padding: 15px 20px;
+  border-radius: 8px; /* Slightly rounded corners for nav */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  /* IMPORTANT: Ensure nav takes full width of its centered parent */
+  width: 100%;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+nav ul li {
+  margin-right: 25px; /* More space between nav items */
+}
+
+nav ul li:last-child {
+  margin-right: 0;
+}
+
+nav ul li a, nav ul li button {
+  color: white;
+  text-decoration: none;
   font-weight: 500;
-}
-
-.profile-details p strong {
-  color: #0056b3;
-  min-width: 120px; /* Align labels */
-}
-
-.profile-actions button {
-  margin-top: 20px;
-  padding: 10px 18px;
-  border: none;
+  font-size: 1.05em;
+  padding: 8px 12px;
   border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease;
+  background: none; /* For buttons */
+  border: none; /* For buttons */
+  cursor: pointer; /* For buttons */
 }
 
-.profile-actions .edit-button {
-  background-color: #007bff;
-  color: white;
+nav ul li a:hover, nav ul li button:hover {
+  background-color: #34495e; /* Slightly lighter dark blue on hover */
+  text-decoration: none;
 }
 
-.profile-actions .edit-button:hover {
-  background-color: #0056b3;
+nav ul li button {
+  padding: 8px 15px;
+  background-color: #e74c3c; /* Red for logout button */
+  border-radius: 5px;
 }
 
-.profile-actions .delete-button {
-  background-color: #dc3545;
-  color: white;
-  margin-left: 10px;
+nav ul li button:hover {
+  background-color: #c0392b; /* Darker red on hover */
 }
 
-.profile-actions .delete-button:hover {
-  background-color: #c82333;
+
+/* General Page Layout */
+hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 30px 0;
 }
 
-/* Cancel button for forms/edits */
-form .cancel-button {
-  background-color: #6c757d;
-  color: white;
-  margin-left: 10px;
+/* NEW: Style for the home screen content wrapper */
+.home-screen-content {
+  max-width: 800px; /* Define a max-width for the home content for readability */
+  margin: 0 auto; /* Center this block horizontally */
+  text-align: center; /* Center the text content within this block */
+  padding: 20px; /* Add some padding around the content */
+  background-color: #ffffff; /* Give it a white background like other cards */
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
-form .cancel-button:hover {
-  background-color: #5a6268;
-}
 
-/* Home Welcome Message */
 .welcome-message {
+  font-size: 2.5em;
+  color: #2c3e50;
+  margin-bottom: 20px; /* Adjusted for better spacing within the new wrapper */
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.home-screen-content p {
+    font-size: 1.1em;
+    color: #555;
+}
+
+
+/* General Card/Section Styling (already had text-align: center for h2) */
+.form-container,
+.admin-list-container,
+.profile-container,
+.problem-details-container,
+.competition-details-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); /* Softer shadow */
+  margin-bottom: 30px;
+}
+
+.form-container h2,
+.admin-list-container h2,
+.profile-container h2,
+.problem-details-container h2,
+.competition-details-container h2 {
+  text-align: center; /* Ensures section titles are centered */
+  margin-bottom: 25px;
+  color: #3498db; /* Primary blue for section titles */
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+  width: calc(100% - 22px); /* Adjust for padding and border */
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  box-sizing: border-box; /* Include padding in width */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #3498db; /* Blue focus border */
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* Soft blue glow on focus */
+  outline: none;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical; /* Allow vertical resizing for textareas */
+}
+
+/* Buttons */
+.submit-button,
+.add-button,
+.update-button,
+.run-button {
+  background-color: #3498db; /* Primary blue */
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px; /* Slightly more rounded buttons */
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block; /* Make them block by default */
+  width: auto; /* Allow content to define width */
+  margin: 0 auto 15px auto; /* Center block buttons and add margin below */
+}
+
+.submit-button:hover,
+.add-button:hover,
+.update-button:hover,
+.run-button:hover {
+  background-color: #217dbb; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.submit-button:disabled,
+.add-button:disabled,
+.update-button:disabled,
+.run-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none; /* No lift when disabled */
+}
+
+/* Specific buttons for smaller actions (e.g., in tables) */
+.edit-button-small,
+.delete-button-small,
+.view-button-small,
+.manage-button-small {
+  background-color: #f39c12; /* Orange for edit */
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+  display: inline-block; /* Keep them inline */
   text-align: center;
-  padding: 50px 0;
-  font-size: 1.5em;
-  color: #007bff;
+  line-height: 1; /* Adjust line height for better button text alignment */
+}
+
+.delete-button-small {
+  background-color: #e74c3c; /* Red for delete */
+}
+
+.view-button-small, .manage-button-small {
+  background-color: #2ecc71; /* Green for view/manage */
+}
+
+
+.edit-button-small:hover { background-color: #e67e22; }
+.delete-button-small:hover { background-color: #c0392b; }
+.view-button-small:hover, .manage-button-small:hover { background-color: #27ae60; }
+
+
+/* Messages (Success/Error/Info) */
+.success-message,
+.error-message,
+.info-message {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  text-align: center; /* Ensures messages are centered */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.info-message {
+  background-color: #e2f2ff; /* Light blue */
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+  display: flex; /* For spinner alignment */
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Data Tables (for lists of problems, users, submissions, etc.) */
+.data-table {
+  width: 100%;
+  border-collapse: separate; /* Use separate for rounded corners on cells */
+  border-spacing: 0;
+  margin-top: 25px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden; /* Ensures rounded corners apply to content */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.data-table th,
+.data-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0; /* Lighter border */
+}
+
+.data-table th {
+  background-color: #e9ecef; /* Slightly darker header background */
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none; /* No border on the last row */
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Zebra striping */
+}
+
+.data-table tbody tr:hover {
+  background-color: #eef2f6; /* Subtle hover effect */
+}
+
+.actions-column {
+  white-space: nowrap; /* Keep buttons on one line */
+}
+
+/* NEW: Wrapper for problem content within problem details for better centering */
+.problem-content-wrapper {
+  max-width: 900px; /* Adjust this value to control the content width */
+  margin: 0 auto; /* Centers the content wrapper within its parent */
+  padding: 0 15px; /* Optional: Add some horizontal padding inside */
+}
+
+/* Problem Details Page - Specific Styles */
+.problem-details-container .problem-difficulty {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.problem-details-container .problem-statement,
+.problem-details-container .example-io,
+.problem-details-container .code-submission-section,
+.problem-details-container .past-submissions-section,
+.competition-details-container .competition-problems-section {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 25px; /* Keep internal padding */
+  margin-bottom: 25px; /* Keep margin between sections */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.problem-details-container h3, .example-io h4 {
+  color: #34495e;
+  border-bottom: 1px solid #f0f0f0; /* Lighter separator */
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.problem-statement pre, .example-io pre, .code-block {
+  background-color: #ecf0f1; /* Lighter background for code/preformatted text */
+  border: 1px solid #e0e0e0;
+  padding: 18px;
+  border-radius: 8px;
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 250px;
+  overflow-y: auto;
+  font-size: 0.95em;
+  color: #34495e;
+}
+
+.code-submission-section textarea {
+  min-height: 350px; /* Taller code editor */
+  font-size: 1.05em;
+}
+
+.custom-input-section textarea {
+  min-height: 150px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center; /* Centers buttons within the flex container */
+  gap: 20px; /* More space between run and submit */
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/* Specific styling for the run button */
+.run-button {
+  background-color: #95a5a6; /* Softer grey */
+}
+.run-button:hover {
+  background-color: #7f8c8d;
+}
+
+.run-output-section {
+  background-color: #f7fcf7; /* Very light green for run output */
+  border: 1px solid #d4edda;
+}
+
+.run-output-block {
+  background-color: #e9fae9; /* Even lighter green */
+  border-color: #c3e6cb;
+}
+
+/* Verdict Styles */
+.verdict-accepted { color: #28a745; font-weight: bold; }
+.verdict-wrong { color: #dc3545; font-weight: bold; }
+.verdict-tle, .verdict-mle { color: #ffc107; font-weight: bold; }
+.verdict-ce, .verdict-re, .verdict-error { color: #6c757d; font-weight: bold; }
+.verdict-pending { color: #007bff; font-weight: bold; }
+
+/* Competition Status Badges */
+.competition-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: white;
+    display: inline-block;
+    text-transform: uppercase;
+}
+.competition-status.upcoming { background-color: #3498db; } /* Blue */
+.competition-status.live { background-color: #27ae60; } /* Green */
+.competition-status.finished { background-color: #95a5a6; } /* Grey */
+
+.competition-status-badge {
+    display: block; /* Ensures margin: auto works for centering */
+    margin: 0 auto 25px auto; /* Center and add margin below */
+    padding: 8px 15px;
+    border-radius: 20px; /* Pill shape */
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    text-align: center; /* Ensures text within badge is centered */
+    min-width: 120px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.competition-status-badge.upcoming { background-color: #007bff; }
+.competition-status-badge.live { background-color: #28a745; }
+.competition-status-badge.finished { background-color: #6c757d; }
+
+/* Spinner for loading/polling indications */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #3498db; /* Blue spinner matching primary color */
+  border-radius: 50%;
+  width: 18px; /* Slightly larger spinner */
+  height: 18px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Adjustments (Basic) */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  nav ul li {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .submit-button, .run-button {
+    width: 100%;
+    max-width: 300px;
+  }
+  .data-table th, .data-table td {
+    padding: 10px;
+  }
 }

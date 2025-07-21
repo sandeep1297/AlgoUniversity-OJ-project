@@ -10,10 +10,10 @@ function LoginPage({ onAuthSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError(''); 
     try {
       const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      onAuthSuccess(data.token);
+      onAuthSuccess(data); 
       navigate('/profile');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
@@ -32,7 +32,7 @@ function LoginPage({ onAuthSuccess }) {
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        {error && <p className="error-message">{error}</p>} {/* Apply error message class */}
+        {error && <p className="error-message">{error}</p>}
         <button type="submit">Login</button>
       </form>
     </div>

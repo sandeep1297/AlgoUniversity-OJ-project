@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function ProfilePage({ token, onLogout }) {
+function ProfilePage({ user, onLogout, onUpdateUser }) { // Receive user object and onUpdateUser
   const [userProfile, setUserProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
   const [message, setMessage] = useState('');
-  const [error, setError] = useState(''); // New state for errors
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ function ProfilePage({ token, onLogout }) {
       try {
         const config = {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`, // Use token from the user object
           },
         };
         const { data } = await axios.get('http://localhost:5000/api/users/profile', config);
@@ -26,7 +26,7 @@ function ProfilePage({ token, onLogout }) {
           email: data.email,
           dob: data.dob ? new Date(data.dob).toISOString().split('T')[0] : '',
         });
-        setMessage(''); // Clear any old messages on successful fetch
+        setMessage('');
         setError('');
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to fetch profile. Please login again.');
@@ -35,10 +35,10 @@ function ProfilePage({ token, onLogout }) {
       }
     };
 
-    if (token) {
+    if (user && user.token) { // Check if user and token exist
       fetchProfile();
     }
-  }, [token, onLogout, navigate]);
+  }, [user, onLogout, navigate]); // Depend on the user object
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,15 +52,14 @@ function ProfilePage({ token, onLogout }) {
       const config = {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${user.token}`, // Use token from user object
         },
       };
       const { data } = await axios.put('http://localhost:5000/api/users/profile', formData, config);
-      setUserProfile(data);
+      setUserProfile(data); // Update local profile state
+      onUpdateUser({ ...user, ...data, token: user.token }); // Update user in App.jsx (keep original token)
       setMessage('Profile updated successfully!');
       setIsEditing(false);
-      // Optional: Refresh token if it was part of the update response
-      // onAuthSuccess(data.token);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to update profile.');
     }
@@ -73,7 +72,7 @@ function ProfilePage({ token, onLogout }) {
       try {
         const config = {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`, // Use token from user object
           },
         };
         await axios.delete(`http://localhost:5000/api/users/${userProfile._id}`, config);
@@ -93,16 +92,17 @@ function ProfilePage({ token, onLogout }) {
   return (
     <div>
       <h2>User Profile</h2>
-      {message && <p className="success-message">{message}</p>} {/* Apply success message class */}
-      {error && <p className="error-message">{error}</p>} {/* Apply error message class */}
+      {message && <p className="success-message">{message}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {!isEditing ? (
-        <div className="profile-details"> {/* Apply profile details class */}
+        <div className="profile-details">
           <p><strong>User ID:</strong> {userProfile.userId}</p>
           <p><strong>Full Name:</strong> {userProfile.fullName}</p>
           <p><strong>Email:</strong> {userProfile.email}</p>
           <p><strong>Date of Birth:</strong> {new Date(userProfile.dob).toLocaleDateString()}</p>
-          <div className="profile-actions"> {/* Apply actions class */}
+          <p><strong>Role:</strong> {userProfile.role.charAt(0).toUpperCase() + userProfile.role.slice(1)}</p> {/* Display Role */}
+          <div className="profile-actions">
             <button onClick={() => setIsEditing(true)} className="edit-button">Edit Profile</button>
             <button onClick={handleDelete} className="delete-button">Delete Account</button>
           </div>
@@ -130,7 +130,7 @@ function ProfilePage({ token, onLogout }) {
             <input type="password" name="password" value={formData.password || ''} onChange={handleChange} placeholder="Leave blank to keep current" />
           </div>
           <button type="submit">Save Changes</button>
-          <button type="button" onClick={() => setIsEditing(false)} className="cancel-button">Cancel</button> {/* Apply cancel button class */}
+          <button type="button" onClick={() => setIsEditing(false)} className="cancel-button">Cancel</button>
         </form>
       )}
     </div>
