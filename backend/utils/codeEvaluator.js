@@ -1,6 +1,5 @@
-// backend/utils/codeEvaluator.js
 const { exec, spawn } = require('child_process');
-const fs = require('fs/promises');
+const fs = require('fs/promises'); // Already using promises version, which is good
 const path = require('path');
 
 const CODE_DIR = path.join(__dirname, '../temp_code');
@@ -21,7 +20,8 @@ fs.mkdir(CODE_DIR, { recursive: true }).catch(console.error);
  */
 const executeCode = async (code, language, inputs, timeLimitSeconds = 1) => {
   const fileId = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
-  let filename, compileCommand, runCommand, cleanupCommands = [];
+  let filename, compileCommand, runCommand;
+  let cleanupFiles = []; // Store file paths to clean up, not 'rm' commands
   let overallResult = { verdict: 'Pending', output: '', error: null, executionTime: 0, results: [] };
   const executionStartTime = Date.now();
   const isSubmission = Array.isArray(inputs);
@@ -33,17 +33,17 @@ const executeCode = async (code, language, inputs, timeLimitSeconds = 1) => {
         filename = `${fileId}.py`;
         runCommand = `python ${path.join(CODE_DIR, filename)}`;
         break;
-      case 'c':
+      case 'c': // NEW: Added case for C language
         filename = `${fileId}.c`;
         compileCommand = `gcc ${path.join(CODE_DIR, filename)} -o ${path.join(CODE_DIR, fileId)}`;
         runCommand = `${path.join(CODE_DIR, fileId)}`;
-        cleanupCommands.push(`rm -f ${path.join(CODE_DIR, fileId)}`); // Remove compiled executable
+        cleanupFiles.push(path.join(CODE_DIR, fileId)); // Store executable path
         break;
       case 'cpp':
         filename = `${fileId}.cpp`;
         compileCommand = `g++ ${path.join(CODE_DIR, filename)} -o ${path.join(CODE_DIR, fileId)}`;
         runCommand = `${path.join(CODE_DIR, fileId)}`;
-        cleanupCommands.push(`rm -f ${path.join(CODE_DIR, fileId)}`); // Remove compiled executable
+        cleanupFiles.push(path.join(CODE_DIR, fileId)); // Store executable path
         break;
       case 'java':
         // For Java, the class name must match the filename without extension
@@ -51,7 +51,7 @@ const executeCode = async (code, language, inputs, timeLimitSeconds = 1) => {
         filename = `Main${fileId}.java`; // Use a unique filename for the .java file
         compileCommand = `javac -d ${CODE_DIR} ${path.join(CODE_DIR, filename)}`; // Compile to CODE_DIR
         runCommand = `java -cp ${CODE_DIR} Main${fileId}`; // Run from CODE_DIR, assuming Main class
-        cleanupCommands.push(`rm -f ${path.join(CODE_DIR, `Main${fileId}.class`)}`); // Remove compiled class
+        cleanupFiles.push(path.join(CODE_DIR, `Main${fileId}.class`)); // Store compiled class path
         break;
       default:
         throw new Error('Unsupported language');
@@ -59,7 +59,7 @@ const executeCode = async (code, language, inputs, timeLimitSeconds = 1) => {
 
     const codeFilePath = path.join(CODE_DIR, filename);
     await fs.writeFile(codeFilePath, code);
-    cleanupCommands.push(`rm -f ${codeFilePath}`); // Remove source file
+    cleanupFiles.push(codeFilePath); // Store source file path
 
     // 1. Compilation (for C, C++, Java)
     if (compileCommand) {
@@ -188,11 +188,14 @@ const executeCode = async (code, language, inputs, timeLimitSeconds = 1) => {
     }
   } finally {
     // Clean up temporary files
-    for (const cmd of cleanupCommands) {
+    for (const filePath of cleanupFiles) {
       try {
-        await execPromise(cmd);
+        await fs.unlink(filePath);
       } catch (cleanupErr) {
-        console.error(`Failed to clean up: ${cmd}`, cleanupErr.message);
+        // Ignore "file not found" errors (ENOENT) during cleanup, as it might already be gone
+        if (cleanupErr.code !== 'ENOENT') {
+          console.error(`Failed to clean up: ${filePath}`, cleanupErr.message);
+        }
       }
     }
   }

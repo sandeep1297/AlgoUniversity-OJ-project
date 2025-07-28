@@ -100,6 +100,13 @@ router.post('/', protect, async (req, res) => {
         newSubmission.output = evaluationResult.output;
         newSubmission.executionTime = evaluationResult.executionTime;
         // Optionally save detailed test case results: newSubmission.results = evaluationResult.results;
+
+      res.status(202).json({
+      message: 'Code submitted successfully. Evaluation pending...',
+      submissionId: newSubmission._id,
+      verdict: newSubmission.verdict,
+    });
+
         await newSubmission.save();
         console.log(`Submission ${newSubmission._id} verdict: ${evaluationResult.verdict}`);
       })
@@ -110,11 +117,7 @@ router.post('/', protect, async (req, res) => {
         console.error(`Evaluation error for submission ${newSubmission._id}:`, evalError);
       });
 
-    res.status(202).json({
-      message: 'Code submitted successfully. Evaluation pending...',
-      submissionId: newSubmission._id,
-      verdict: 'Pending',
-    });
+    
 
   } catch (error) {
     console.error('Error submitting code:', error);

@@ -1,7 +1,7 @@
 const express = require('express');
 const Problem = require('../models/Problems');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); 
+const User = require('../models/User'); // Import User model to verify user role
 
 const router = express.Router();
 
