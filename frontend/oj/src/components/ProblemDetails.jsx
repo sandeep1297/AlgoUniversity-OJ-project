@@ -1,388 +1,340 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import './../App.css'; 
 
 function ProblemDetails({ user }) {
-  const { id: problemId } = useParams();
-  const [problem, setProblem] = useState(null);
-  const [code, setCode] = useState('');
-  const [language, setLanguage] = useState('python');
-  const [submissionMessage, setSubmissionMessage] = useState('');
-  const [submissionError, setSubmissionError] = useState('');
-  const [pastSubmissions, setPastSubmissions] = useState([]);
-  const [loadingProblem, setLoadingProblem] = useState(true);
-  const [loadingSubmissions, setLoadingSubmissions] = useState(true); // Manages loading state for past submissions
+  const { id } = useParams();
+  const [problem, setProblem] = useState(null);
+  const [code, setCode] = useState('');
+  // CHANGED: Initial language is now 'c'
+  const [language, setLanguage] = useState('c'); 
+  const [verdict, setVerdict] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
-  // New states for Run functionality
-  const [customInput, setCustomInput] = useState('');
-  const [runOutput, setRunOutput] = useState('');
-  const [runError, setRunError] = useState('');
-  const [runningCode, setRunningCode] = useState(false); // For loading state of "Run"
+  const [customInput, setCustomInput] = useState('');
 
-  // Check if there are any submissions currently pending evaluation
-  const hasPendingSubmissions = pastSubmissions.some(sub => sub.verdict === 'Pending');
+  const [aiSuggestions, setAiSuggestions] = useState(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [aiError, setAiError] = useState(null);
 
-  // Fetch problem details
-  useEffect(() => {
-    const fetchProblem = async () => {
-      setLoadingProblem(true);
-      setSubmissionError('');
-      try {
-        const config = user && user.token ? {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        } : {};
-        const { data } = await axios.get(`http://localhost:5000/api/problems/${problemId}`, config);
-        setProblem(data);
-      } catch (err) {
-        setSubmissionError(err.response?.data?.message || 'Failed to load problem details.');
-      } finally {
-        setLoadingProblem(false);
-      }
-    };
+  const [pastSubmissions, setPastSubmissions] = useState([]);
+  const [submissionsLoading, setSubmissionsLoading] = useState(true);
+  const [submissionsError, setSubmissionsError] = useState(null);
 
-    fetchProblem();
-  }, [problemId, user]);
+  useEffect(() => {
+    const fetchProblem = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(`http://localhost:5000/api/problems/${id}`);
+        setProblem(response.data);
+      } catch (err) {
+        setError("Failed to fetch problem details. Please try again.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProblem();
+  }, [id]);
 
-  // Fetch past submissions for the current user and problem
-  // Memoized with useCallback to ensure stable function reference
-  const fetchPastSubmissions = useCallback(async () => {
-    if (!user || !user.token) return; // Only fetch if logged in
+  useEffect(() => {
+    const fetchPastSubmissions = async () => {
+      if (!user) {
+        setSubmissionsError('Please log in to view past submissions.');
+        setSubmissionsLoading(false);
+        return;
+      }
+      if (!problem) {
+        return;
+      }
 
-    // Only set loading if it's not the initial load and there are pending submissions
-    // or if the list is currently empty and we are fetching
-    if (!loadingSubmissions || hasPendingSubmissions) {
-        setLoadingSubmissions(true);
-    }
+      setSubmissionsLoading(true);
+      setSubmissionsError(null);
+      try {
+        const response = await axios.get(`http://localhost:5000/api/submissions/user/${id}`, {
+          headers: { Authorization: `Bearer ${user.token}` }
+        });
+        setPastSubmissions(response.data);
+      } catch (err) {
+        setSubmissionsError('Failed to fetch past submissions. ' + (err.response?.data?.message || err.message));
+        console.error('Fetch submissions error:', err);
+      } finally {
+        setSubmissionsLoading(false);
+      }
+    };
 
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-      const { data } = await axios.get(`http://localhost:5000/api/submissions/user/${problemId}`, config);
-      setPastSubmissions(data);
-    } catch (err) {
-      console.error('Failed to fetch past submissions:', err);
-      // setSubmissionError(err.response?.data?.message || 'Failed to load past submissions.'); // Avoid user-facing error for just submissions fetch
-    } finally {
-      setLoadingSubmissions(false);
-    }
-  }, [problemId, user, loadingSubmissions, hasPendingSubmissions]); // Dependencies for useCallback
+    if (problem && user) {
+      fetchPastSubmissions();
+    }
+  }, [id, problem, user, verdict]); 
 
-  // Effect for polling submissions
-  useEffect(() => {
-    // Initial fetch of submissions when component mounts or dependencies change
-    fetchPastSubmissions();
+  const handleSubmitCode = async (event) => {
+    event.preventDefault();
+    if (!user || submitting) {
+      setError('Please log in to submit code.');
+      return;
+    }
+    if (!code.trim()) {
+      setError('Code cannot be empty.');
+      return;
+    }
 
-    let pollInterval;
-    // Set up polling only if there's a user and if there are pending submissions (or just submitted)
-    // The `fetchPastSubmissions` callback will handle the actual API call
-    if (user && user.token) {
-        pollInterval = setInterval(() => {
-            // This condition ensures polling continues as long as there might be pending results
-            // `hasPendingSubmissions` here would reflect the state at the time of THIS effect's run.
-            // But `fetchPastSubmissions` itself will update `pastSubmissions` and re-trigger effect if needed.
-            // Simpler and safer: just call fetch if polling is needed.
-            // The `fetchPastSubmissions` should be robust to not over-update if data is identical.
-            // Also, `hasPendingSubmissions` is a reactive value here.
-            fetchPastSubmissions();
-        }, 3000); // Poll every 3 seconds
+    setSubmitting(true);
+    setVerdict(null);
+    setError(null); 
+    try {
+      const response = await axios.post(`http://localhost:5000/api/submissions`, {
+        problemId: problem._id,
+        code,
+        language
+      }, {
+        headers: { Authorization: `Bearer ${user.token}` } 
+      });
+      setVerdict(response.data.verdict);
+    } catch (err) {
+      setVerdict({ status: 'Error', message: 'Failed to submit code. ' + (err.response?.data?.message || err.message) });
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-        // Clear interval when component unmounts or dependencies change
-        return () => clearInterval(pollInterval);
-    }
-  // Dependency array: Re-run this effect only if `fetchPastSubmissions` changes (it's memoized),
-  // or if the `user` status changes (login/logout).
-  // `hasPendingSubmissions` is intentionally *not* in this dependency array for stability of the interval.
-  // The `fetchPastSubmissions` useCallback's own dependencies ensure it re-fetches when needed.
-  }, [fetchPastSubmissions, user]);
+  const handleRunCode = async (event) => {
+    event.preventDefault();
+    if (!user || submitting) {
+      setError('Please log in to run code.');
+      return;
+    }
+    if (!code.trim()) {
+      setError('Code cannot be empty.');
+      return;
+    }
 
+    setSubmitting(true);
+    setVerdict(null);
+    setError(null); 
+    try {
+      const response = await axios.post(`http://localhost:5000/api/submissions/run`, {
+        code,
+        language,
+        customInput
+      }, {
+        headers: { Authorization: `Bearer ${user.token}` } 
+      });
+      setVerdict(response.data); 
+    } catch (err) {
+      setVerdict({ 
+        verdict: 'Error', 
+        output: null,
+        error: 'Failed to run code. ' + (err.response?.data?.message || err.message)
+      });
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-  const handleCodeChange = (e) => {
-    setCode(e.target.value);
-  };
+  const requestAiReview = async () => {
+    if (!user) {
+        setAiError('Please log in to use the AI assistant.');
+        return;
+    }
+    if (!code.trim()) {
+        setAiError('Please write some code to get AI suggestions.');
+        return;
+    }
 
-  const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
+    setAiSuggestions(null); 
+    setAiError(null); 
+    setIsAiLoading(true);
 
-  const handleCustomInputChange = (e) => {
-    setCustomInput(e.target.value);
-  };
+    try {
+      const response = await axios.post(`http://localhost:5000/api/gemini/review`, {
+        problemId: problem._id,
+        language: language,
+        code: code,
+        problemStatement: problem.statement, 
+        exampleInput: problem.exampleInput,
+        exampleOutput: problem.exampleOutput
+      }, {
+        headers: { Authorization: `Bearer ${user.token}` } 
+      });
+      setAiSuggestions(response.data.suggestions);
+    } catch (err) {
+      setAiError('Failed to get AI suggestions: ' + (err.response?.data?.message || err.message));
+      console.error('AI Review Error:', err);
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
 
-  const handleSubmitCode = async (e) => {
-    e.preventDefault();
-    setSubmissionMessage('');
-    setSubmissionError('');
-    setRunOutput(''); // Clear run output on new submission
-    setRunError('');
+  if (loading) return <div className="problem-details-container info-message">Loading problem details...</div>;
+  if (error) return <div className="problem-details-container error-message">{error}</div>;
+  if (!problem) return <div className="problem-details-container info-message">Problem not found.</div>;
 
-    if (!user || !user.token) {
-      setSubmissionError('Please log in to submit code.');
-      return;
-    }
-    if (!code.trim()) {
-      setSubmissionError('Code cannot be empty.');
-      return;
-    }
+  return (
+    <div className="problem-content-wrapper">
+      <div className="problem-details-container">
+        <h2>{problem.title}</h2>
+        <p className="problem-difficulty">{problem.difficulty}</p>
 
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
+        <div className="problem-page-layout">
+          <div className="problem-statement-section">
+            <div className="problem-statement">
+              <h3>Problem Statement</h3>
+              <p>{problem.statement}</p>
+            </div>
 
-      const { data } = await axios.post('http://localhost:5000/api/submissions', {
-        problemId,
-        language,
-        code,
-      }, config);
+            <div className="example-io">
+              <h4>Example Input</h4>
+              <pre>{problem.exampleInput}</pre>
+              <h4>Example Output</h4>
+              <pre>{problem.exampleOutput}</pre>
+            </div>
+            
+            <div className="ai-assistant-section">
+              <h3>AI Code Assistant</h3>
+              <p>Get suggestions and code review from our AI-powered assistant.</p>
+              {!user ? (
+                <p className="info-message">Please log in to use the AI assistant.</p>
+              ) : (
+                <button 
+                  className="submit-button" 
+                  onClick={requestAiReview}
+                  disabled={isAiLoading || !code.trim()}
+                >
+                  {isAiLoading ? (
+                    <>
+                      Analyzing...
+                      <span className="spinner"></span>
+                    </>
+                  ) : 'Get AI Suggestions'}
+                </button>
+              )}
+              {aiError && <div className="error-message">{aiError}</div>}
+              {aiSuggestions && (
+                <div className="info-message ai-suggestion-box">
+                  <h4>AI Suggestions:</h4>
+                  <pre>{aiSuggestions}</pre>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="code-editor-section">
+            <div className="code-submission-section">
+              <h3>Code Editor</h3>
+              <form> 
+                <div className="form-group">
+                  <label htmlFor="language-select">Language:</label>
+                  <select 
+                    id="language-select" 
+                    value={language} 
+                    onChange={(e) => setLanguage(e.target.value)}
+                  >
+                    {/* CHANGED: Added the C option */}
+                    <option value="c">C</option>
+                    <option value="cpp">C++</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="code-editor">Your Code:</label>
+                  <textarea
+                    id="code-editor"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    placeholder="Write your code here..."
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="custom-input">Custom Input (Optional):</label>
+                  <textarea
+                    id="custom-input"
+                    value={customInput}
+                    onChange={(e) => setCustomInput(e.target.value)}
+                    placeholder="Enter custom input here..."
+                  />
+                </div>
+                <div className="action-buttons">
+                  <button type="button" onClick={handleRunCode} className="run-button" disabled={submitting}>
+                    {submitting ? 'Running...' : 'Run Code'}
+                  </button>
+                  <button type="button" onClick={handleSubmitCode} className="submit-button" disabled={submitting}>
+                    {submitting ? 'Submitting...' : 'Submit Code'}
+                  </button>
+                </div>
+              </form>
+            </div>
+            {verdict && (
+              <div className={`info-message ${verdict.verdict === 'Accepted' ? 'success-message' : 'error-message'}`}>
+                {verdict.verdict === 'Run Complete' ? (
+                  <>
+                    {verdict.output && <pre>{verdict.output}</pre>}
+                    {verdict.error && (
+                      <>
+                        <pre className="error-text">{verdict.error}</pre>
+                      </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <strong>Verdict:</strong> {verdict.status}
+                  <p>{verdict.message}</p>
+                </>
+              )}
+              {verdict.executionTime && <p><strong>Execution Time:</strong> {verdict.executionTime}ms</p>}
+            </div>
+          )}
+          </div>
+        </div>
 
-      setSubmissionMessage(data.message || 'Submission sent for evaluation.');
-      // Prepend the new pending submission immediately for better UX
-      setPastSubmissions(prev => [{
-          _id: data.submissionId,
-          problem: { _id: problemId, name: problem.name },
-          user: { _id: user._id, userId: user.userId },
-          code: code,
-          language: language,
-          verdict: 'Pending',
-          submittedAt: new Date().toISOString(), // Use client-side timestamp initially
-      }, ...prev]);
-
-      // Trigger re-fetch after a short delay to potentially get initial status, then rely on polling
-      // setTimeout(fetchPastSubmissions, 1000);
-
-    } catch (err) {
-      setSubmissionError(err.response?.data?.message || 'Failed to submit code.');
-    }
-  };
-
-  const handleRunCode = async (e) => {
-    e.preventDefault();
-    setRunOutput('');
-    setRunError('');
-    setSubmissionMessage(''); // Clear submission messages on run
-    setSubmissionError('');
-
-    if (!user || !user.token) {
-      setRunError('Please log in to run code.');
-      return;
-    }
-    if (!code.trim()) {
-      setRunError('Code cannot be empty.');
-      return;
-    }
-
-    setRunningCode(true);
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
-      const { data } = await axios.post('http://localhost:5000/api/submissions/run', {
-        language,
-        code,
-        customInput,
-      }, config);
-
-      setRunOutput(data.output || 'No output generated.');
-      if (data.error) {
-        setRunError(data.error);
-      } else {
-        setRunError(''); // Clear previous run errors
-      }
-
-    } catch (err) {
-      setRunError(err.response?.data?.message || 'Failed to run code.');
-      setRunOutput('');
-    } finally {
-      setRunningCode(false);
-    }
-  };
-
-
-  if (loadingProblem) {
-    return <div>Loading problem...</div>;
-  }
-
-  if (submissionError && !problem) {
-    return <div className="error-message">{submissionError}</div>;
-  }
-
-  if (!problem) {
-    return <div>Problem not found.</div>;
-  }
-
-  const getVerdictClass = (verdict) => {
-    switch (verdict) {
-      case 'Accepted': return 'verdict-accepted';
-      case 'Wrong Answer': return 'verdict-wrong';
-      case 'Time Limit Exceeded': return 'verdict-tle';
-      case 'Memory Limit Exceeded': return 'verdict-mle';
-      case 'Compilation Error': return 'verdict-ce';
-      case 'Runtime Error': return 'verdict-re';
-      case 'Pending': return 'verdict-pending';
-      default: return 'verdict-error';
-    }
-  };
-
-  return (
-    <div className="problem-details-container">
-      <h2>Problem: {problem.name}</h2>
-      <p className="problem-difficulty">Difficulty: {problem.difficulty}</p>
-      <div className="problem-statement">
-        <h3>Statement:</h3>
-        <pre>{problem.statement}</pre>
-        {problem.timeLimit && <p>Time Limit: {problem.timeLimit} seconds</p>}
-      </div>
-
-      <div className="example-io">
-        <h3>Example:</h3>
-        {problem.exampleInput && (
-          <div>
-            <h4>Input:</h4>
-            <pre className="code-block">{problem.exampleInput}</pre>
-          </div>
-        )}
-        {problem.exampleOutput && (
-          <div>
-            <h4>Output:</h4>
-            <pre className="code-block">{problem.exampleOutput}</pre>
-          </div>
-        )}
-      </div>
-
-      <div className="code-submission-section">
-        <h3>Code Editor</h3>
-        {submissionMessage && <p className="success-message">{submissionMessage}</p>}
-        {submissionError && <p className="error-message">{submissionError}</p>}
-        {runError && <p className="error-message">{runError}</p>}
-
-        {!user || !user.token ? (
-            <p className="info-message">Please <a href="/login">log in</a> to write and run code.</p>
-        ) : (
-            <>
-              <div className="form-group">
-                <label htmlFor="language">Language:</label>
-                <select id="language" name="language" value={language} onChange={handleLanguageChange}>
-                  <option value="python">Python</option>
-                  <option value="c">C</option>
-                  <option value="cpp">C++</option>
-                  <option value="java">Java</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label htmlFor="code">Your Code:</label>
-                <textarea
-                  id="code"
-                  name="code"
-                  value={code}
-                  onChange={handleCodeChange}
-                  rows="20"
-                  spellCheck="false"
-                  placeholder={`Write your ${language} code here...`}
-                ></textarea>
-              </div>
-
-              <div className="custom-input-section">
-                <h4>Custom Input (for 'Run' only):</h4>
-                <textarea
-                  id="customInput"
-                  name="customInput"
-                  value={customInput}
-                  onChange={handleCustomInputChange}
-                  rows="5"
-                  spellCheck="false"
-                  placeholder="Enter custom input here to test your code locally (optional)..."
-                ></textarea>
-              </div>
-
-              <div className="action-buttons">
-                <button
-                  type="button"
-                  onClick={handleRunCode}
-                  className="run-button"
-                  disabled={runningCode}
-                >
-                  {runningCode ? 'Running...' : 'Run Code'}
-                </button>
-                <button
-                  type="submit"
-                  onClick={handleSubmitCode}
-                  className="submit-button"
-                  disabled={runningCode}
-                >
-                  Submit Solution
-                </button>
-              </div>
-
-              {runOutput && (
-                <div className="run-output-section">
-                  <h4>Run Output:</h4>
-                  <pre className="code-block run-output-block">{runOutput}</pre>
-                </div>
-              )}
-            </>
-        )}
-      </div>
-
-      <div className="past-submissions-section">
-        <h3>Your Recent Submissions (Evaluated against all test cases)</h3>
-        {loadingSubmissions && !pastSubmissions.length ? ( // Show initial loading or when re-fetching empty list
-          <p>Loading your past submissions...</p>
-        ) : (
-            <>
-                {pastSubmissions.length === 0 ? (
-                  <p>You have no past submissions for this problem.</p>
-                ) : (
-                  <>
-                    {hasPendingSubmissions && (
-                      <p className="info-message">Checking for verdict updates... {loadingSubmissions && <span className="spinner"></span>}</p>
-                    )}
-                    <table className="data-table">
-                      <thead>
-                        <tr>
-                          <th>Time</th>
-                          <th>Language</th>
-                          <th>Verdict</th>
-                          <th>Execution Time (ms)</th>
-                          <th>Output / Error</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {pastSubmissions.map((sub) => (
-                          <tr key={sub._id}>
-                            <td>{new Date(sub.submittedAt).toLocaleString()}</td>
-                            <td>{sub.language}</td>
-                            <td className={getVerdictClass(sub.verdict)}>
-                              <strong>{sub.verdict}</strong>
-                            </td>
-                            <td>{sub.executionTime ? `${sub.executionTime}ms` : 'N/A'}</td>
-                            <td>
-                              {sub.verdict === 'Accepted' ? 'N/A' : (
-                                  <pre className="submission-output">{sub.output || 'No output/error details'}</pre>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </>
-                )}
-            </>
-        )}
-      </div>
-    </div>
-  );
+        <div className="past-submissions-section">
+          <h3>Past Submissions</h3>
+          {submissionsLoading ? (
+            <div className="info-message">Loading past submissions...</div>
+          ) : submissionsError ? (
+            <div className="error-message">{submissionsError}</div>
+          ) : pastSubmissions.length === 0 ? (
+            <div className="info-message">No past submissions for this problem.</div>
+          ) : (
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Submission ID</th>
+                  <th>Language</th>
+                  <th>Verdict</th>
+                  <th>Time (ms)</th>
+                  <th>Submitted At</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pastSubmissions.map((submission) => (
+                  <tr key={submission._id}>
+                    <td>{submission._id.substring(0, 8)}...</td>
+                    <td>{submission.language}</td>
+                    <td>
+                      <span className={`verdict-${submission.verdict.toLowerCase().replace(/\s/g, '-')}`}>
+                        {submission.verdict}
+                      </span>
+                    </td>
+                    <td>{submission.executionTime || 'N/A'}</td>
+                    <td>{new Date(submission.submittedAt).toLocaleString()}</td>
+                    <td>
+                    </td>
+                </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default ProblemDetails;

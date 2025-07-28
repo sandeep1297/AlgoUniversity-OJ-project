@@ -14,7 +14,7 @@ import CompetitionForm from './components/CompetitionForm';
 import ProblemList from './components/ProblemList';
 import CompetitionList from './components/CompetitionList';
 import ProblemDetails from './components/ProblemDetails';
-import CompetitionDetails from './components/CompetitionDetails'; // <-- NEW Import
+import CompetitionDetails from './components/CompetitionDetails'; 
 import './App.css';
 
 function App() {
@@ -45,113 +45,117 @@ function App() {
 
   return (
     <Router>
-      <div className="app-container">
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/problems">Problems</Link></li>
-            <li><Link to="/competitions">Competitions</Link></li>
-            {!isAuthenticated ? (
-              <>
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/register">Register</Link></li>
-              </>
-            ) : (
-              <>
-                <li><Link to="/profile">Profile</Link></li>
-                {isAdmin && <li><Link to="/admin-dashboard">Admin Dashboard</Link></li>}
-                <li><button onClick={handleLogout}>Logout</button></li>
-              </>
-            )}
-          </ul>
-        </nav>
-        <hr />
-        <Routes>
-          <Route path="/" element={<h2 className="welcome-message">Welcome to Online Judge System</h2>} />
-          <Route
-            path="/login"
-            element={!isAuthenticated ? <LoginPage onAuthSuccess={handleAuthSuccess} /> : <Navigate to="/profile" />}
-          />
-          <Route
-            path="/register"
-            element={!isAuthenticated ? <RegisterPage onAuthSuccess={handleAuthSuccess} /> : <Navigate to="/profile" />}
-          />
-          <Route
-            path="/profile"
-            element={isAuthenticated ? <ProfilePage user={user} onLogout={handleLogout} onUpdateUser={handleAuthSuccess} /> : <Navigate to="/login" />}
-          />
-
-          {/* Public Problem and Competition List Routes */}
-          <Route
-            path="/problems"
-            element={<ProblemList user={user} />}
-          />
-          <Route
-            path="/problems/:id"
-            element={<ProblemDetails user={user} />}
-          />
-          <Route
-            path="/competitions"
-            element={<CompetitionList user={user} />}
-          />
-          <Route
-            path="/competitions/:id" // <-- NEW Route for Competition Details
-            element={<CompetitionDetails user={user} />}
-          />
-
-          {/* Admin Routes */}
-          {isAdmin ? (
+      <nav>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/problems">Problems</Link></li>
+          <li><Link to="/competitions">Competitions</Link></li>
+          {!isAuthenticated ? (
             <>
-              <Route path="/admin-dashboard" element={<AdminDashboard />} />
-              <Route
-                path="/admin/problems"
-                element={<AdminProblemList user={user} />}
-              />
-              <Route
-                path="/admin/problems/add"
-                element={<ProblemForm user={user} />}
-              />
-              <Route
-                path="/admin/problems/edit/:id"
-                element={<ProblemForm user={user} />}
-              />
-              <Route
-                path="/admin/users"
-                element={<AdminUserList user={user} />}
-              />
-              <Route
-                path="/admin/problems/:problemId/testcases"
-                element={<AdminTestCaseList user={user} />}
-              />
-              <Route
-                path="/admin/problems/:problemId/testcases/add"
-                element={<TestCaseForm user={user} />}
-              />
-              <Route
-                path="/admin/testcases/edit/:id"
-                element={<TestCaseForm user={user} />}
-              />
-              <Route
-                path="/admin/competitions"
-                element={<AdminCompetitionList user={user} />}
-              />
-              <Route
-                path="/admin/competitions/add"
-                element={<CompetitionForm user={user} />}
-              />
-              <Route
-                path="/admin/competitions/edit/:id"
-                element={<CompetitionForm user={user} />}
-              />
+              <li><Link to="/login">Login</Link></li>
+              <li><Link to="/register">Register</Link></li>
             </>
           ) : (
-            // Redirect unauthorized users trying to access admin routes
-            <Route path="/admin-dashboard/*" element={<Navigate to="/login" />} />
+            <>
+              <li><Link to="/profile">Profile</Link></li>
+              {isAdmin && <li><Link to="/admin-dashboard">Admin Dashboard</Link></li>}
+              <li><button onClick={handleLogout}>Logout</button></li>
+            </>
           )}
+        </ul>
+      </nav>
 
-          <Route path="*" element={<h2>404 - Page Not Found</h2>} />
-        </Routes>
-      </div>
+      {/* This wrapper ensures all content below the nav bar is centered */}
+      <main className="page-content-wrapper">
+          <hr />
+          <Routes>
+              <Route path="/" element={
+                  <div className="home-screen-content">
+                  <h2 className="welcome-message">Welcome to Online Judge System</h2>
+                  </div>
+              } />
+              
+              <Route
+                  path="/login"
+                  element={!isAuthenticated ? <LoginPage onAuthSuccess={handleAuthSuccess} /> : <Navigate to="/profile" />}
+              />
+              <Route
+                  path="/register"
+                  element={!isAuthenticated ? <RegisterPage onAuthSuccess={handleAuthSuccess} /> : <Navigate to="/profile" />}
+              />
+              <Route
+                  path="/profile"
+                  element={isAuthenticated ? <ProfilePage user={user} onLogout={handleLogout} onUpdateUser={handleAuthSuccess} /> : <Navigate to="/login" />}
+              />
+
+              <Route
+                  path="/problems"
+                  element={<ProblemList user={user} />}
+              />
+              <Route
+                  path="/problems/:id"
+                  element={<ProblemDetails user={user} />}
+              />
+              <Route
+                  path="/competitions"
+                  element={<CompetitionList user={user} />}
+              />
+              <Route
+                  path="/competitions/:id"
+                  element={<CompetitionDetails user={user} />}
+              />
+
+              {isAdmin ? (
+                  <>
+                  <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                  <Route
+                      path="/admin/problems"
+                      element={<AdminProblemList user={user} />}
+                  />
+                  <Route
+                      path="/admin/problems/add"
+                      element={<ProblemForm user={user} />}
+                  />
+                  <Route
+                      path="/admin/problems/edit/:id"
+                      element={<ProblemForm user={user} />}
+                  />
+                  <Route
+                      path="/admin/users"
+                      element={<AdminUserList user={user} />}
+                  />
+                  <Route
+                      path="/admin/problems/:problemId/testcases"
+                      element={<AdminTestCaseList user={user} />}
+                  />
+                  <Route
+                      path="/admin/problems/:problemId/testcases/add"
+                      element={<TestCaseForm user={user} />}
+                  />
+                  <Route
+                      path="/admin/testcases/edit/:id"
+                      element={<TestCaseForm user={user} />}
+                  />
+                  <Route
+                      path="/admin/competitions"
+                      element={<AdminCompetitionList user={user} />}
+                  />
+                  <Route
+                      path="/admin/competitions/add"
+                      element={<CompetitionForm user={user} />}
+                  />
+                  <Route
+                      path="/admin/competitions/edit/:id"
+                      element={<CompetitionForm user={user} />}
+                  />
+                  </>
+              ) : (
+                  <Route path="/admin-dashboard/*" element={<Navigate to="/login" />} />
+              )}
+
+              <Route path="*" element={<h2>404 - Page Not Found</h2>} />
+          </Routes>
+      </main>
     </Router>
   );
 }
