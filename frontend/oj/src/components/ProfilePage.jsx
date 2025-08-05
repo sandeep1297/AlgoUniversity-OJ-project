@@ -90,7 +90,7 @@ function ProfilePage({ user, onLogout, onUpdateUser }) { // Receive user object 
   }
 
   return (
-    <div>
+    <div className='profile-page'>
       <h2>User Profile</h2>
       {message && <p className="success-message">{message}</p>}
       {error && <p className="error-message">{error}</p>}

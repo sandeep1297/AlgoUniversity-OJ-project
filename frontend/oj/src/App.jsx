@@ -15,9 +15,10 @@ import ProblemList from './components/ProblemList';
 import CompetitionList from './components/CompetitionList';
 import ProblemDetails from './components/ProblemDetails';
 import CompetitionDetails from './components/CompetitionDetails'; 
-import './App.css';
+import './App2.css';
 
 function App() {
+
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;

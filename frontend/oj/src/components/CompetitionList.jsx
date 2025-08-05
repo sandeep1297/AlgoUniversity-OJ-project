@@ -38,7 +38,7 @@ function CompetitionList({ user }) {
   };
 
   return (
-    <div>
+    <div className='competition-list'>
       <h2>Upcoming Competitions</h2>
       {loading && <p>Loading competitions...</p>}
       {error && <p className="error-message">{error}</p>}

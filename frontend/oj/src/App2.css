@@ -1,0 +1,1891 @@
+/* General Body & Typography */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    /* display: flex;
+    justify-content: center; */
+    /* align-items: center; */
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #2c3e50;
+    padding: 15px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 100%;
+    border-radius: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+nav ul li {
+  margin-right: 25px;
+}
+
+nav ul li:last-child {
+  margin-right: 0;
+}
+
+nav ul li a, nav ul li button {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.05em;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+nav ul li a:hover, nav ul li button:hover {
+  background-color: #34495e;
+  text-decoration: none;
+}
+
+nav ul li button {
+  padding: 8px 15px;
+  background-color: #e74c3c;
+  border-radius: 5px;
+}
+
+nav ul li button:hover {
+  background-color: #c0392b;
+}
+
+
+/* General Page Layout */
+hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 30px 0;
+}
+
+/* Home Page Content Wrapper (for centering and styling) */
+.home-screen-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+.welcome-message {
+  font-size: 2.5em;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.home-screen-content p {
+    font-size: 1.1em;
+    color: #555;
+}
+
+
+
+/* Page Content Wrapper (for pages that are not auth forms, like problems list) */
+.problem-content-wrapper {
+    max-width: 95%; /* UPDATED: Use a percentage for wider layout */
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Login, Register, and Profile Page Specific Styles (Unified Card Look) */
+.login-page,
+.register-page,
+.profile-page {
+    background-color: #ffffff;
+    padding: 3rem 4rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    margin: 20px auto;
+}
+
+/* Headings for Auth/Profile Pages */
+.login-page h2,
+.register-page h2,
+.profile-page h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+/* Form Group Styling (for all forms) */
+.login-page form div,
+.register-page form div,
+.profile-page form div {
+    margin-bottom: 1.5rem;
+}
+
+.login-page label,
+.register-page label,
+.profile-page label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Input Styling (for all forms) */
+.login-page input[type="text"],
+.login-page input[type="email"],
+.login-page input[type="password"],
+.register-page input[type="text"],
+.register-page input[type="email"],
+.register-page input[type="password"],
+.register-page input[type="date"],
+.profile-page input[type="text"],
+.profile-page input[type="email"],
+.profile-page input[type="password"],
+.profile-page input[type="date"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Input Focus effects (for all inputs) */
+.login-page input:focus,
+.register-page input:focus,
+.profile-page input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Button Styling (for all forms) */
+.login-page button[type="submit"],
+.register-page button[type="submit"],
+.profile-page button[type="submit"] {
+    width: 100%;
+    padding: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.login-page button[type="submit"]:hover,
+.register-page button[type="submit"]:hover,
+.profile-page button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Error Message */
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Success Message */
+.success-message {
+    color: #28a745;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Profile Details Display */
+.profile-details p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #444;
+}
+
+.profile-details strong {
+    color: #2c3e50;
+    margin-right: 5px;
+}
+
+/* Profile Action Buttons */
+.profile-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+    gap: 15px;
+}
+
+.profile-actions .edit-button,
+.profile-actions .delete-button {
+    flex: 1;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    border: none;
+}
+
+.profile-actions .edit-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.profile-actions .edit-button:hover {
+    background-color: #218838;
+}
+
+.profile-actions .delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.profile-actions .delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Cancel Button in Edit Form */
+.profile-page form .cancel-button {
+    background-color: #6c757d;
+    margin-left: 10px;
+}
+
+.profile-page form .cancel-button:hover {
+    background-color: #5a6268;
+}
+
+.profile-page form button {
+    width: auto;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.profile-page form button:last-child {
+    margin-right: 0;
+}
+
+
+/* Problem List Page Specific Styles */
+.problem-list {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    max-width: 900px;
+    margin: 30px auto;
+    box-sizing: border-box;
+}
+
+.problem-list h2 {
+    text-align: center;
+    color: #34495e;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.problem-list p {
+    text-align: center;
+    font-size: 1.1em;
+    color: #555;
+    margin-top: 20px;
+}
+
+.problem-list .data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.problem-list .data-table th,
+.problem-list .data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.problem-list .data-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.problem-list .data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.problem-list .data-table tbody tr:hover {
+    background-color: #eef2f6;
+}
+
+.problem-list .view-button-small {
+    background-color: #2ecc71;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.problem-list .view-button-small:hover {
+    background-color: #27ae60;
+    text-decoration: none;
+}
+
+/* Problem Details Container Layout */
+.problem-content-wrapper {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.problem-details-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    margin-bottom: 2rem;
+}
+
+.problem-statement-section,
+.code-editor-section {
+    box-sizing: border-box;
+    padding: 0 2rem;
+}
+
+/* Styles for the resizable handle */
+.resizable-handle {
+    width: 10px;
+    background-color: #e0e0e0;
+    cursor: col-resize;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.resizable-handle:hover {
+    background-color: #a0a0a0;
+}
+
+/* Problem Details Typography */
+.problem-details-container h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 1rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.problem-details-container h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #34495e;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.problem-details-container h4 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #34495e;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Difficulty Badge Styling */
+.problem-difficulty {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+    margin-bottom: 1.5rem;
+}
+
+.problem-difficulty.easy {
+    background-color: #28a745;
+}
+
+.problem-difficulty.medium {
+    background-color: #ffc107;
+}
+
+.problem-difficulty.hard {
+    background-color: #dc3545;
+}
+
+/* Code & Preformatted Blocks */
+pre {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #2c3e50;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+}
+
+/* Code Editor and Form Elements */
+.code-editor-section .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.code-editor-section label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.code-editor-section select,
+.code-editor-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.code-editor-section select:focus,
+.code-editor-section textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.code-editor-section textarea {
+    min-height: 500px;
+    resize: vertical;
+}
+
+#custom-input {
+    min-height: 150px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+.run-button,
+.submit-button {
+    flex: 1;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+}
+
+.run-button {
+    background-color: #3498db;
+}
+
+.run-button:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.submit-button {
+    background-color: #2ecc71;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #27ae60;
+}
+
+.run-button:disabled,
+.submit-button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* AI Assistant Section */
+.ai-assistant-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.ai-suggestion-box {
+    margin-top: 1rem;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #e9f5ff;
+    border: 1px solid #b3d9ff;
+}
+
+.ai-suggestion-box pre {
+    border: none;
+    background: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #fff;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Verdict & Message Styling */
+.info-message {
+    background-color: #e2f4ff;
+    color: #0056b3;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border: 1px solid #b3d9ff;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.error-text {
+    color: #721c24;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Past Submissions Section */
+.past-submissions-section {
+    margin-top: 2rem;
+}
+
+.past-submissions-section h3 {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+/* Verdict Badges in the table */
+.verdict-accepted {
+    color: white;
+    background-color: #28a745;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.verdict-wrong-answer {
+    color: white;
+    background-color: #dc3545;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.verdict-time-limit-exceeded {
+    color: white;
+    background-color: #ffc107;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.verdict-compilation-error,
+.verdict-runtime-error {
+    color: white;
+    background-color: #6c757d;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+/* CompetitionList Specific Styles */
+.competition-list {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    max-width: 1100px;
+    margin: 30px auto;
+    box-sizing: border-box;
+}
+
+.competition-list h2 {
+    text-align: left;
+    color: #34495e;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.competition-list p {
+    text-align: center;
+    font-size: 1.1em;
+    color: #555;
+    margin-top: 20px;
+}
+
+.competition-list .data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.competition-list .data-table th,
+.competition-list .data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.competition-list .data-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.competition-list .data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.competition-list .data-table tbody tr:hover {
+    background-color: #eef2f6;
+}
+
+/* Status Badges */
+.competition-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+}
+
+.competition-status.upcoming {
+    background-color: #3498db;
+}
+
+.competition-status.live {
+    background-color: #2ecc71;
+}
+
+.competition-status.finished {
+    background-color: #95a5a6;
+}
+
+.competition-list .view-button-small {
+    background-color: #2ecc71;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.competition-list .view-button-small:hover {
+    background-color: #27ae60;
+    text-decoration: none;
+}
+
+.competition-list .data-table td:last-child {
+    white-space: nowrap;
+}
+
+
+/* Responsive Layout */
+@media (max-width: 992px) {
+    .problem-page-layout {
+        flex-direction: column;
+    }
+
+    .problem-content-wrapper {
+        padding: 0 10px;
+    }
+
+    .problem-details-container {
+        padding: 2rem;
+    }
+}
+
+    /* CompetitionDetails Specific Styles */
+
+/* Main container for the details page */
+.competition-details-container {
+    background-color: #ffffff;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 30px auto;
+    box-sizing: border-box;
+}
+
+.competition-details-container h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 1rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.competition-details-container p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.competition-details-container p strong {
+    color: #34495e;
+    margin-right: 5px;
+}
+
+/* Status Badge Styling for the details page */
+.competition-status-badge {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.competition-status-badge.upcoming {
+    background-color: #3498db;
+}
+
+.competition-status-badge.live {
+    background-color: #2ecc71;
+}
+
+.competition-status-badge.finished {
+    background-color: #95a5a6;
+}
+
+/* Problems section container */
+.competition-problems-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.competition-problems-section h3 {
+    font-size: 1.5em;
+    color: #34495e;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+
+/* Responsive Layout */
+@media (max-width: 992px) {
+    .problem-page-layout {
+        flex-direction: column;
+    }
+
+    .problem-content-wrapper {
+        padding: 0 10px;
+    }
+
+    .problem-details-container {
+        padding: 2rem;
+    }
+}
+
+/* AdminDashboard Specific Styles (Updated to be card-like) */
+.admin-dashboard {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.admin-dashboard h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.admin-dashboard p {
+    text-align: center;
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.admin-actions {
+    margin-top: 30px;
+}
+
+.admin-actions h3 {
+    color: #34495e;
+    font-size: 1.6em;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.admin-actions ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.admin-actions .card-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    padding: 25px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.admin-actions .card-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Color variations for each management section */
+.admin-actions .card-link.problems {
+    background-color: #e6f7ff; /* Light Blue */
+    color: #007bff;
+}
+
+.admin-actions .card-link.problems:hover {
+    background-color: #d9edf7;
+    border-color: #007bff;
+}
+
+.admin-actions .card-link.users {
+    background-color: #f0fff4; /* Light Green */
+    color: #28a745;
+}
+
+.admin-actions .card-link.users:hover {
+    background-color: #e2f4e9;
+    border-color: #28a745;
+}
+
+.admin-actions .card-link.competitions {
+    background-color: #f9f0ff; /* Light Purple */
+    color: #6f42c1;
+}
+
+.admin-actions .card-link.competitions:hover {
+    background-color: #f2e6ff;
+    border-color: #6f42c1;
+}
+
+/* Admin List Containers (for Problems, Users, Competitions) */
+.admin-list-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 40px auto;
+    box-sizing: border-box;
+}
+
+.admin-list-container h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.admin-list-container .add-button {
+    display: inline-block;
+    background-color: #2ecc71;
+    color: white;
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.admin-list-container .add-button:hover {
+    background-color: #27ae60;
+}
+
+/* Styles for the table actions column */
+.admin-list-container .actions-column {
+    white-space: nowrap;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Small Button Styles (for table rows) */
+.edit-button-small,
+.delete-button-small,
+.manage-button-small {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    color: white;
+}
+
+.edit-button-small {
+    background-color: #3498db;
+}
+
+.edit-button-small:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.delete-button-small {
+    background-color: #e74c3c;
+}
+
+.delete-button-small:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.manage-button-small {
+    background-color: #9b59b6;
+}
+
+.manage-button-small:hover {
+    background-color: #8e44ad;
+    transform: translateY(-2px);
+}
+
+/* Reusing .data-table, .error-message, .success-message from App.css */
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.data-table th,
+.data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: #eef2f6;
+}
+
+/* Admin Form Container Styles (for Problem, Competition, etc.) */
+.admin-form-container {
+    background-color: #ffffff;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+    box-sizing: border-box;
+}
+
+.admin-form-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.admin-form-container form > div {
+    margin-bottom: 1.5rem;
+}
+
+.admin-form-container label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.admin-form-container input[type="text"],
+.admin-form-container select,
+.admin-form-container textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.admin-form-container input[type="text"]:focus,
+.admin-form-container select:focus,
+.admin-form-container textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.admin-form-container textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Button group styling */
+.admin-form-container .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 2rem;
+}
+
+.admin-form-container button[type="submit"],
+.admin-form-container .cancel-button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.admin-form-container button[type="submit"] {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.admin-form-container button[type="submit"]:hover {
+    background-color: #27ae60;
+}
+
+.admin-form-container .cancel-button {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.admin-form-container .cancel-button:hover {
+    background-color: #7f8c8d;
+}
+
+
+
+/* Admin List Containers (for Problems, Users, Competitions) */
+.admin-list-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 40px auto;
+    box-sizing: border-box;
+}
+
+.admin-list-container h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+/* Admin User List Specific Styles */
+.users-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.users-table th,
+.users-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+/* Add specific alignment for ROLE and STATUS columns */
+.users-table th:nth-child(3),
+.users-table td:nth-child(3),
+.users-table th:nth-child(4),
+.users-table td:nth-child(4) {
+    text-align: center; /* Center the Role and Status columns */
+}
+
+.users-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.users-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.users-table tbody tr:hover {
+    background-color: #eef2f6;
+}
+
+/* Status badge styling */
+.active-status,
+.deactivated-status {
+    font-weight: 600;
+    text-transform: capitalize;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    display: inline-block;
+    color: white;
+}
+
+.active-status {
+    background-color: #28a745; /* Green */
+}
+
+.deactivated-status {
+    background-color: #6c757d; /* Gray */
+}
+
+/* Actions column and buttons */
+.user-actions-cell {
+    white-space: nowrap;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end; /* <-- ADD THIS LINE */
+}
+
+.user-actions-cell button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    color: white;
+}
+
+/* Button colors */
+.edit-button-small,
+.save-button-small {
+    background-color: #3498db; /* Blue */
+}
+
+.edit-button-small:hover,
+.save-button-small:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.cancel-button-small {
+    background-color: #95a5a6; /* Gray */
+}
+
+.cancel-button-small:hover {
+    background-color: #7f8c8d;
+    transform: translateY(-2px);
+}
+
+.deactivate-button-small {
+    background-color: #e74c3c; /* Red */
+}
+
+.deactivate-button-small:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.activate-button-small {
+    background-color: #2ecc71; /* Green */
+}
+
+.activate-button-small:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+/* Styling for the role select dropdown */
+.users-table select {
+    padding: 6px 8px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+
+/* Admin Test Case List Specific Styles */
+/* Reusing .admin-list-container for consistent page layout */
+
+.testcase-list-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.add-testcase-button,
+.back-button {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.add-testcase-button {
+    background-color: #3498db;
+    color: white;
+}
+
+.add-testcase-button:hover {
+    background-color: #2980b9;
+}
+
+.back-button {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.back-button:hover {
+    background-color: #7f8c8d;
+}
+
+.testcases-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.testcases-table th,
+.testcases-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+}
+
+.testcases-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.testcases-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.testcases-table tbody tr:hover {
+    background-color: #eef2f6;
+}
+
+/* Styling for the code snippets inside the table */
+.code-snippet-cell {
+    width: 35%; /* Allocate more space for input/output */
+}
+
+.code-snippet-cell pre {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    white-space: pre-wrap; /* Wrap long lines */
+    word-wrap: break-word; /* Break words to prevent overflow */
+}
+
+.testcase-actions-cell {
+    white-space: nowrap;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+
+/* Admin Form Container Styles (reused from ProblemForm) */
+.admin-form-container {
+    background-color: #ffffff;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+    box-sizing: border-box;
+}
+
+.admin-form-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.admin-form-container form > div {
+    margin-bottom: 1.5rem;
+}
+
+.admin-form-container label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.admin-form-container textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for code/data */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    min-height: 200px; /* Adjust height for test case data */
+    resize: vertical;
+}
+
+.admin-form-container textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Button group styling (reused from ProblemForm) */
+.admin-form-container .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 2rem;
+}
+
+.admin-form-container button[type="submit"],
+.admin-form-container .cancel-button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.admin-form-container button[type="submit"] {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.admin-form-container button[type="submit"]:hover {
+    background-color: #27ae60;
+}
+
+.admin-form-container .cancel-button {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.admin-form-container .cancel-button:hover {
+    background-color: #7f8c8d;
+}
+
+
+/* Admin Competition List Specific Styles */
+/* Reusing .admin-list-container for consistent page layout */
+
+.admin-list-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 25px;
+}
+
+.add-button {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    background-color: #2ecc71;
+    color: white;
+}
+
+.add-button:hover {
+    background-color: #27ae60;
+}
+
+/* Reusing the generic data-table class from other components */
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.data-table th,
+.data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top; /* Align items to the top for the problems list */
+}
+
+.data-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: #eef2f6;
+}
+
+/* Styling for the nested problems list within the table */
+.data-table ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.data-table li {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+/* Actions column styling */
+.actions-cell {
+    white-space: nowrap;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+
+/* Admin Form Container Styles (reused from ProblemForm & TestCaseForm) */
+.admin-form-container {
+    background-color: #ffffff;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+    box-sizing: border-box;
+}
+
+.admin-form-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 700;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.admin-form-container form > div {
+    margin-bottom: 1.5rem;
+}
+
+.admin-form-container label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.admin-form-container input[type="text"],
+.admin-form-container textarea,
+.admin-form-container input[type="datetime-local"],
+.admin-form-container select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.admin-form-container input[type="text"]:focus,
+.admin-form-container textarea:focus,
+.admin-form-container input[type="datetime-local"]:focus,
+.admin-form-container select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.admin-form-container textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.admin-form-container select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.admin-form-container select[multiple] {
+    background-image: none;
+    padding: 0;
+}
+
+.admin-form-container select[multiple] option {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-form-container select[multiple] option:checked {
+    background-color: #3498db;
+    color: white;
+}
+
+/* Button group styling (reused from other forms) */
+.admin-form-container .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 2rem;
+}
+
+.admin-form-container button[type="submit"],
+.admin-form-container .cancel-button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.admin-form-container button[type="submit"] {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.admin-form-container button[type="submit"]:hover {
+    background-color: #27ae60;
+}
+
+.admin-form-container .cancel-button {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.admin-form-container .cancel-button:hover {
+    background-color: #7f8c8d;
+}
+
+
+/* GLOBAL RESET AND LAYOUT FIX */
+body, html, #root, .app-container {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f4f7f9;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content-wrapper {
+    flex-grow: 1;
+    padding: 40px;
+}
+
+
+/* Styles for the Login page */
+.login-page {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-page h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2em;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #2980b9;
+}
+
+.google-login-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 25px 0;
+    color: #aaa;
+}
+
+.google-login-separator hr {
+    flex-grow: 1;
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.google-login-separator span {
+    padding: 0 15px;
+}
+
+.google-login-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.error-message {
+    color: #e74c3c;
+    background-color: #fcebeb;
+    border: 1px solid #e74c3c;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+

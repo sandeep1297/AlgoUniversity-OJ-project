@@ -32,7 +32,7 @@ function ProblemList({ user }) {
   }, [fetchProblems]);
 
   return (
-    <div>
+    <div className='problem-list'>
       <h2>Available Problems</h2>
       {loading && <p>Loading problems...</p>}
       {error && <p className="error-message">{error}</p>}

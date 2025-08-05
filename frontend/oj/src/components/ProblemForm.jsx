@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function ProblemForm({ user, onProblemSaved }) {
-  const { id } = useParams(); // Get problem ID from URL if in edit mode
+  const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -14,10 +14,9 @@ function ProblemForm({ user, onProblemSaved }) {
   });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const isEditMode = !!id; // True if ID exists in URL
+  const isEditMode = !!id;
 
   useEffect(() => {
-    // If in edit mode, fetch problem data
     if (isEditMode) {
       const fetchProblem = async () => {
         try {
@@ -31,12 +30,12 @@ function ProblemForm({ user, onProblemSaved }) {
             name: data.name,
             statement: data.statement,
             difficulty: data.difficulty,
-            exampleInput: data.exampleInput || '', // Ensure it's an empty string if null
-            exampleOutput: data.exampleOutput || '', // Ensure it's an empty string if null
+            exampleInput: data.exampleInput || '',
+            exampleOutput: data.exampleOutput || '',
           });
         } catch (err) {
           setError(err.response?.data?.message || 'Failed to fetch problem for editing.');
-          navigate('/admin/problems'); // Redirect if problem not found
+          navigate('/admin/problems');
         }
       };
       fetchProblem();
@@ -61,14 +60,12 @@ function ProblemForm({ user, onProblemSaved }) {
       };
 
       if (isEditMode) {
-        // Update existing problem
         const { data } = await axios.put(`http://localhost:5000/api/problems/${id}`, formData, config);
         setMessage(data.message);
       } else {
-        // Add new problem
         const { data } = await axios.post('http://localhost:5000/api/problems', formData, config);
         setMessage(data.message);
-        setFormData({ // Clear form after successful creation
+        setFormData({
           name: '',
           statement: '',
           difficulty: 'Easy',
@@ -77,16 +74,16 @@ function ProblemForm({ user, onProblemSaved }) {
         });
       }
       if (onProblemSaved) {
-        onProblemSaved(); // Notify parent component (AdminProblemList) to refresh
+        onProblemSaved();
       }
-      navigate('/admin/problems'); // Redirect to problem list after save
+      navigate('/admin/problems');
     } catch (err) {
       setError(err.response?.data?.message || (isEditMode ? 'Failed to update problem.' : 'Failed to add problem.'));
     }
   };
 
   return (
-    <div>
+    <div className="admin-form-container"> {/* <-- WRAPPER ADDED HERE */}
       <h2>{isEditMode ? 'Edit Problem' : 'Add New Problem'}</h2>
       {message && <p className="success-message">{message}</p>}
       {error && <p className="error-message">{error}</p>}
@@ -149,8 +146,10 @@ function ProblemForm({ user, onProblemSaved }) {
             placeholder="e.g., [0, 1]"
           ></textarea>
         </div>
-        <button type="submit">{isEditMode ? 'Update Problem' : 'Add Problem'}</button>
-        <button type="button" onClick={() => navigate('/admin/problems')} className="cancel-button">Cancel</button>
+        <div className="button-group"> {/* <-- WRAPPER ADDED HERE */}
+          <button type="submit">{isEditMode ? 'Update Problem' : 'Add Problem'}</button>
+          <button type="button" onClick={() => navigate('/admin/problems')} className="cancel-button">Cancel</button>
+        </div>
       </form>
     </div>
   );
