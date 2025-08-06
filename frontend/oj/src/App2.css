@@ -179,6 +179,7 @@ hr {
     font-size: 1rem;
     box-sizing: border-box;
     transition: border-color 0.3s, box-shadow 0.3s;
+    color: rgb(44, 41, 41)
 }
 
 /* Input Focus effects (for all inputs) */
@@ -1793,99 +1794,75 @@ body, html, #root, .app-container {
 }
 
 
-/* Styles for the Login page */
-.login-page {
-    max-width: 400px;
-    margin: 60px auto;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
+/* --- Home Page Hero Section Styles --- */
 
-.login-page h2 {
-    color: #2c3e50;
-    margin-bottom: 25px;
-    font-size: 2em;
-}
-
-.login-form .form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.login-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #555;
-}
-
-.login-form input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.login-form input:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-}
-
-.login-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.login-button:hover {
-    background-color: #2980b9;
-}
-
-.google-login-separator {
+.hero-section {
     display: flex;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    margin: 25px 0;
-    color: #aaa;
+    padding: 20px;
+    background-color: #f8f9fa; 
 }
 
-.google-login-separator hr {
-    flex-grow: 1;
-    border: none;
-    height: 1px;
-    background-color: #e0e0e0;
+.hero-content {
+    max-width: 800px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.google-login-separator span {
-    padding: 0 15px;
+.hero-content h1 {
+    font-size: 3.5rem;
+    color: #002d62; /* Deep blue for a strong heading */
+    margin-bottom: 0.5rem;
+    font-weight: 700;
 }
 
-.google-login-button-container {
+.hero-content .hero-subtitle {
+    font-size: 1.25rem;
+    color: #555;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.hero-actions {
     display: flex;
     justify-content: center;
+    gap: 15px; /* Spacing between buttons */
 }
 
-.error-message {
-    color: #e74c3c;
-    background-color: #fcebeb;
-    border: 1px solid #e74c3c;
-    padding: 10px;
+.cta-button {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
     border-radius: 8px;
-    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
 
+.cta-button.primary {
+    background-color: #4CAF50; /* Green for primary action */
+    color: #fff;
+}
 
+.cta-button.primary:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button.secondary {
+    background-color: #fff;
+    color: #002d62;
+    border-color: #002d62;
+}
+
+.cta-button.secondary:hover {
+    background-color: #002d62;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

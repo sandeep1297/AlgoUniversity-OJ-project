@@ -10,7 +10,6 @@ const competitionRoutes = require('./routes/competitionRoutes');
 const submissionRoutes = require('./routes/submissionRoutes');
 const userRoutes = require('./routes/userRoutes');
 const geminiRoutes = require('./routes/geminiRoutes');
-const authRoutes = require('./routes/authRoutes'); // <--- NEW: Import auth routes
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -37,7 +36,6 @@ app.use('/api/testcases', testCaseRoutes);
 app.use('/api/competitions', competitionRoutes);
 app.use('/api/submissions', submissionRoutes);
 app.use('/api/gemini', geminiRoutes);
-app.use('/api/auth', authRoutes); // <--- NEW: Mount auth routes under /api/auth
 
 // Start the server
 app.listen(PORT, () => {

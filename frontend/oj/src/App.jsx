@@ -71,10 +71,17 @@ function App() {
           <hr />
           <Routes>
               <Route path="/" element={
-                  <div className="home-screen-content">
-                  <h2 className="welcome-message">Welcome to Online Judge System</h2>
-                  </div>
-              } />
+    <div className="hero-section">
+        <div className="hero-content">
+            <h1>Welcome to Solo Coder</h1> {/* Use your app name here */}
+            <p className="hero-subtitle">Solve challenging problems, compete with others, and improve your coding skills.</p>
+            <div className="hero-actions">
+                <Link to="/problems" className="cta-button primary">Start Solving Problems</Link>
+                <Link to="/competitions" className="cta-button secondary">Join a Competition</Link>
+            </div>
+        </div>
+    </div>
+} />
               
               <Route
                   path="/login"
