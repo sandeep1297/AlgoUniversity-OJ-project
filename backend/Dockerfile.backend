@@ -9,6 +9,12 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
+# Install necessary compilers and build tools
+RUN apk add --no-cache \
+    g++ \
+    gcc \
+    python3 \
+    openjdk11
 
 # Copy the rest of the application code
 COPY . .
